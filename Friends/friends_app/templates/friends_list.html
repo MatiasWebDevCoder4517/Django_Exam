@@ -1,0 +1,101 @@
+{% extends "base.html" %} {% block body %}
+
+<title>{% block title %} User Wish List {% endblock %}</title>
+
+<div class="container">
+
+    <div class="row mt-5 pt-3">
+        <div class="col-md-5 offset-md-2">
+            <div class="card my-3 shadow">
+                <div class="card-body">
+                    <!--###########################################################################-->
+                    {% if messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <ul class="messages">
+                            {% for message in messages %}
+
+                            <li>{{ message }}</li>
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                          {% endfor %}
+                    </div>
+                    {% endif %}
+                    <!--###########################################################################-->
+                    <h2>Hello </h2>
+                    <h2 class="text-success">{{request.session.u_name}}!</h2>
+
+                    <br />
+                    <!-- 
+                        TESTING 
+                        <a class="btn btn-primary mr-md-3 mb-2 mb-md-0" href="/friends/create">Add a New Friend</a> 
+                    -->
+                    <a class="btn btn-info mr-md-3 mb-2 mb-md-0" href="/refresh">Refresh Friends Lists</a>
+                    <br>
+                    <br>
+                    <br>
+                    <h2>Here is the list of your friends: </h2>
+
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <td>Alias</td>
+                                <td>Action 1</td>
+                                <td>Action 2</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for friend in all_friends %}
+                            {% if friend.friendship.id != request.session.u_id and user in friend.friends_users.all  %}
+                            <tr>
+                                <td class="align-middle"> {{ friend.friendship.name }} </td>
+                                <td>
+                                    <a class="btn btn-success" href="/profile/{{ friend.friendship.id }}">View
+                                        Profile</a>
+                                </td>
+
+                                <td>
+                                    <a class="btn btn-danger btn-delete" href="/delete/{{ friend.id }}">Remove
+                                        Friend</a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            <hr />
+                        </tbody>
+                    </table>
+
+                    <!--#################################################################-->
+                    <h2>Other Users not in your Friend's List: </h2>
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <td>Alias</td>
+                                <td>Action 1</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for friend in all_friends %}
+                            {% if friend.friendship.id != request.session.u_id and user not in friend.friends_users.all  %}
+                            <tr>
+                                <td>
+                                    <a href="/profile/{{friend.friendship.id}}">{{ friend.friendship.name }}</a>
+                                </td>
+
+                                <td>
+                                    <a class="btn btn-success" href="/friend/add/{{friend.id}}">Add as Friend </a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                        <hr />
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

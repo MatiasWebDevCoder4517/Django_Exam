@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block body %}
+
+<div>
+    <h2 class="text-danger">{{ thisUser.name }}'s</h2>
+    <h2>PROFILE</h2>
+    <br />
+
+    <h2>NAME: <h1 class="text-success">{{ thisUser.name }}</h1>
+    </h2>
+    <br />
+    <h2>EMAIL: <h1 class="text-success">{{ thisUser.email }}</h1>
+    </h2>
+    <br />
+    <a class="btn btn-info mr-md-3 mb-2 mb-md-0" href="/friends_list">Go Friends List</a>
+</div>
+
+{% endblock %}
